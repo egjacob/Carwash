@@ -1,0 +1,114 @@
+using Microsoft.Maui.Controls;
+using System.Collections.Generic;
+
+namespace LennysCarWash
+{
+    public partial class MainPage : ContentPage
+    {
+        private const string APP_BACKGROUND_COLOR = "#222233";
+        private const string OPTIONS_CONTAINER_COLOR = "#444455";
+        private const string RECEIPT_HEADER_COLOR = "#555566";
+        private const string RECEIPT_TOTAL_COLOR = "#555566";
+        private const string RECEIPT_BODY_COLOR = "#444455";
+        private const string TOTAL_AMOUNT_COLOR = "#FFAAAA";
+        private const string APP_TITLE_COLOR = "CadetBlue";
+        private const string BUTTON_BACKGROUND_COLOR = "#779977";
+        private const string BUTTON_TEXT_COLOR = "White";
+        private const string ERROR_MESSAGE_COLOR = "#FF7777";
+
+        private Label _receiptHeader;
+        private StackLayout _receiptBody;
+        private Label _totalAmount;
+        private Label _errorLabel;
+
+        private double _totalCost;
+
+        public MainPage()
+        {
+            InitializeComponent();
+
+            // Set app background color
+            this.BackgroundColor = Color.FromArgb(APP_BACKGROUND_COLOR);
+
+            // Create the car wash service options
+            var basicWash = new CarWashService("Basic Wash", 10.00);
+            var premiumWash = new CarWashService("Premium Wash", 15.00);
+            var ultraWash = new CarWashService("Ultra Wash", 20.00);
+
+            // Create the add-on services
+            var airFreshener = new AddOnService("Air Freshener", 2.00);
+            var vacuumService = new AddOnService("Vacuum Service", 2.00);
+            var waxOnService = new AddOnService("Wax On Service", 5.00);
+            var tireShineService = new AddOnService("Tire Shine Service", 5.00);
+
+            // Create the option selector and add-on selector
+            var optionSelector = new SelectionStackLayout<CarWashService>("Select a Wash Tier",
+                new List<CarWashService> { basicWash, premiumWash, ultraWash });
+            var addOnSelector = new SelectionStackLayout<AddOnService>("Select Add-Ons",
+                new List<AddOnService> { airFreshener, vacuumService, waxOnService, tireShineService });
+
+            // Create the submit button
+            var submitButton = new Button
+            {
+                Text = "Submit",
+                BackgroundColor = Color.FromArgb(BUTTON_BACKGROUND_COLOR),
+                TextColor = Color.FromArgb(BUTTON_TEXT_COLOR),
+                FontAttributes = FontAttributes.Bold
+            };
+            submitButton.Clicked += OnSubmitButtonClicked;
+
+            // Create the receipt header
+            _receiptHeader = new Label { Text = "Receipt", FontSize = 25, FontAttributes = FontAttributes.Bold, TextColor = Color.FromArgb(RECEIPT_HEADER_COLOR), BackgroundColor = Color.FromArgb(RECEIPT_HEADER_COLOR), HorizontalTextAlignment = TextAlignment.Center };
+
+            // Create the receipt body
+            _receiptBody = new StackLayout { BackgroundColor = Color.FromArgb(RECEIPT_BODY_COLOR) };
+
+            // Create the total amount label
+            _totalAmount = new Label
+            {
+                Text = "Total: $0.00",
+                FontSize = 22,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Color.FromArgb(TOTAL_AMOUNT_COLOR),
+                HorizontalTextAlignment = TextAlignment.End,
+                Margin = new Thickness(0, 10, 20, 10)
+            };
+
+            // Create the error label
+            _errorLabel = new Label { TextColor = Color.FromArgb(ERROR_MESSAGE_COLOR), FontSize = 20 };
+
+            void InitializeComponent() => throw new NotImplementedException();
+
+            static void OnSubmitButtonClicked(object sender, EventArgs e) => throw new NotImplementedException(); }
+        internal class CarWashService
+        {
+            public CarWashService(string v1, double v2)
+            {
+            }
+        }
+
+        internal class AddOnService
+        {
+            public AddOnService(string v1, double v2)
+            {
+            }
+        }            // Add the option
+
+        private class SelectionStackLayout<T>
+        {
+            private string v;
+            private List<CarWashService> carWashServices;
+
+            public SelectionStackLayout(string v, List<CarWashService> carWashServices)
+            {
+                this.v = v;
+                this.carWashServices = carWashServices;
+            }
+
+            public SelectionStackLayout(string v, List<AddOnService> addOnServices)
+            {
+                this.v = v;
+            }
+        }
+    }
+}
